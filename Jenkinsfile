@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'magic-decision-maker'
-        IMAGE_TAG = 'latest'
+        DOCKER_IMAGE = 'magic-decision-maker'
     }
 
     stages {
@@ -16,7 +15,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                    dockerImage = docker.build(env.DOCKER_IMAGE)
                 }
             }
         }
@@ -24,7 +23,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    dockerImage.run("-p 5000:5000")
+                    dockerImage.run('-p 5000:5000')
                 }
             }
         }
