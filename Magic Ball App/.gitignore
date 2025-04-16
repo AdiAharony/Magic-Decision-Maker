@@ -1,0 +1,20 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+
+# Flask environment files
+.env
+
+# Docker files
+*.tar
+*.log
+
+# Python virtual environments 
+venv/
+env/
+
+# VSCode / PyCharm / other IDEs
+.vscode/
+.idea/
+
+

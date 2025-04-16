@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Magic Decision Maker</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f0f8ff;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-left: 10px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .response {
+            margin-top: 40px;
+            font-size: 24px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Magic Decision Maker</h1>
+
+    <form method="post">
+        <input type="text" name="question" placeholder="Type your question..." required>
+        <button type="submit">Get an Answer</button>
+    </form>
+
+    {% if answer %}
+    <div class="response">
+        <p><strong>Question:</strong> {{ question }}</p>
+        <p><strong>Answer:</strong> {{ answer }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>
