@@ -1,17 +1,22 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = 'magic-decision-maker'
+        IMAGE_TAG = 'latest'
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/AdiAharony/Magic-Decision-Maker.git'
+                git url: 'https://github.com/AdiAharony/Magic-Decision-Maker.git', branch: 'main'
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('magic-decision-app')
+                    dockerImage = docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
             }
         }
@@ -19,11 +24,7 @@ pipeline {
         stage('Run Docker Container') {
             steps {
                 script {
-                    // Stop any previous container with the same name
-                    sh 'docker rm -f magic-app || true'
-
-                    // Run a new container
-                    sh 'docker run -d -p 5000:5000 --name magic-app magic-decision-app'
+                    dockerImage.run("-p 5000:5000")
                 }
             }
         }
