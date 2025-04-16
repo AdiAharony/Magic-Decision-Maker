@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/adiaharony/Magic-Decision-Maker.git'
+                git 'https://github.com/AdiAharony/Magic-Decision-Maker.git'
             }
         }
 
