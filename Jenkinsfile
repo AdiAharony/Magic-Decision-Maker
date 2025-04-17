@@ -1,29 +1,23 @@
 pipeline {
-    agent any
-
-    environment {
-        DOCKER_IMAGE = 'magic-decision-maker'
+    agent {
+        docker {
+            image 'docker:latest'
+            args '-v /var/run/docker.sock:/var/run/docker.sock'
+        }
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Clone') {
             steps {
-                git url: 'https://github.com/AdiAharony/Magic-Decision-Maker.git', branch: 'main'
+                checkout scm
             }
         }
 
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build(env.DOCKER_IMAGE)
-                }
-            }
-        }
-
-        stage('Run Docker Container') {
-            steps {
-                script {
-                    dockerImage.run('-p 5000:5000')
+                    def imageName = "myapp:${env.BUILD_NUMBER}"
+                    sh "docker build -t $imageName ."
                 }
             }
         }
