@@ -1,5 +1,8 @@
 FROM jenkins/jenkins:2.492.3-jdk17
+
 USER root
+
+# Install Docker CLI
 RUN apt-get update && apt-get install -y lsb-release ca-certificates curl && \
     install -m 0755 -d /etc/apt/keyrings && \
     curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc && \
@@ -8,6 +11,10 @@ RUN apt-get update && apt-get install -y lsb-release ca-certificates curl && \
     https://download.docker.com/linux/debian $(. /etc/os-release && echo \"$VERSION_CODENAME\") stable" \
     | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
     apt-get update && apt-get install -y docker-ce-cli && \
+    groupadd docker && usermod -aG docker jenkins && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
 USER jenkins
+
+# Install Jenkins plugins
 RUN jenkins-plugin-cli --plugins "blueocean docker-workflow"
