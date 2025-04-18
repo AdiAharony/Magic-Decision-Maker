@@ -3,7 +3,6 @@ import random
 
 app = Flask(__name__)
 
-# List of possible answers
 answers = [
     "Yes",
     "No",
