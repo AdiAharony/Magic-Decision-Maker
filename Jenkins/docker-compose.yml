@@ -3,33 +3,28 @@ version: '3.8'
 services:
   jenkins:
     image: jenkins/jenkins:lts
-    container_name: jenkins-master
+    container_name: jenkins
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
-    networks:
-      - jenkins-net
-    user: root  
+    user: root
     command: >
-        bash -c "apt-get update && apt-get install -y git && /sbin/tini -- /usr/local/bin/jenkins.sh"
+      bash -c "apt-get update && apt-get install -y git && /sbin/tini -- /usr/local/bin/jenkins.sh"
+    depends_on:
+      - dind
+    environment:
+      - DOCKER_HOST=tcp://dind:2375
 
   dind:
-    image: docker:24-dind
-    container_name: docker-dind
+    image: docker:dind
+    container_name: dind
     privileged: true
     environment:
-      - DOCKER_TLS_CERTDIR=/certs
-    volumes:
-      - dind-certs:/certs/client
-    networks:
-      - jenkins-net
+      - DOCKER_TLS_CERTDIR=
+    ports:
+      - "2375:2375"
 
 volumes:
   jenkins_home:
-  dind-certs:
-
-networks:
-  jenkins-net:
-    driver: bridge
