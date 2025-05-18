@@ -11,6 +11,9 @@ services:
       - jenkins_home:/var/jenkins_home
     networks:
       - jenkins-net
+    user: root  
+    command: >
+        bash -c "apt-get update && apt-get install -y git && /sbin/tini -- /usr/local/bin/jenkins.sh"
 
   dind:
     image: docker:24-dind
